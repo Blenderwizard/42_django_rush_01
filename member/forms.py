@@ -1,3 +1,5 @@
+import re
+from django import forms
 from django.forms import Form, ModelForm, CharField, PasswordInput, ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
@@ -17,9 +19,19 @@ from .models import MemberModel
 
 
 class UpdateForm(ModelForm):
+	staff = forms.BooleanField(required=False, label="Staff")
+
 	class Meta:
 		model = MemberModel
 		fields = ['name', 'surname', 'email', 'description', 'avatar']
+	
+	def __init__(self, *args, **kwargs):
+		super(UpdateForm, self).__init__(*args, **kwargs)
+		self.fields['name'].required = False
+		self.fields['surname'].required = False
+		self.fields['email'].required = False
+		self.fields['description'].required = False
+		self.fields['avatar'].required = False
 
 class RegisterForm(ModelForm):
     password = CharField(widget=PasswordInput())

@@ -13,9 +13,10 @@ def temp(request):  # Should we use generic view for all others views?
     return render(request, 'home.html', context)
 
 
-class UpdateInformationView(DetailView):
+class UpdateInformationView(FormView):
 	template_name = 'member/update.html'
-	model = User
+	form_class = UpdateForm
+	success_url = reverse_lazy('home')
 
 	def get(self, request, *args, **kwargs):
 		if not request.user.is_authenticated:
@@ -28,9 +29,41 @@ class UpdateInformationView(DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(UpdateInformationView, self).get_context_data(**kwargs)
-		context['isuser'] = self.request.user.is_authenticated
-		context['userinfo'] = MemberModel.objects.get(user=self.request.user)
+		if not User.objects.filter(id = int(self.kwargs['pk'])).exists:
+			return context
+		user = User.objects.get(id = int(self.kwargs['pk']))
+		context['userinfo'] = MemberModel.objects.get(user=user)
+		context['is_staff'] = self.request.user.is_staff
+		context['user_is_staff'] = user.is_staff
 		return context
+
+	def form_valid(self, form):
+		print(form.cleaned_data)
+		if not self.request.user.is_authenticated:
+			return super().form_invalid(form)
+		if not User.objects.filter(id=self.kwargs['pk']).exists():
+			return super().form_invalid(form)
+		if self.request.user.is_staff:
+			if 'staff' in form.cleaned_data:
+				user = User.objects.get(id=int(self.kwargs['pk']))
+				user.is_superuser = form.cleaned_data['staff']
+				user.is_staff = form.cleaned_data['staff']
+				user.save()
+		elif User.objects.get(username=self.request.user).id != self.kwargs['pk']:
+			return super().form_invalid(form)
+		userinfo = MemberModel.objects.get(id=self.kwargs['pk'])
+		if 'name' in form.cleaned_data and form.cleaned_data['name'] != '':
+			userinfo.name = form.cleaned_data['name']
+		if 'surname' in form.cleaned_data and form.cleaned_data['surname'] != '':
+			userinfo.surname = form.cleaned_data['surname']
+		if 'email' in form.cleaned_data and form.cleaned_data['email'] != None:
+			userinfo.email = form.cleaned_data['email']
+		if 'description' in form.cleaned_data and form.cleaned_data['description'] != '':
+			userinfo.description = form.cleaned_data['description']
+		if 'avatar' in form.cleaned_data and form.cleaned_data['avatar'] != None:
+			userinfo.avatar = form.cleaned_data['avatar']
+		userinfo.save()
+		return super().form_valid(form)
 
 class RegisterFormView(FormView):
 	template_name = 'member/register.html'
