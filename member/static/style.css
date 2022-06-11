@@ -13,3 +13,41 @@ form.form-login {
 th, td {
     text-align: left;
 }
+
+#chat {
+    border-collapse: collapse;
+    word-break: break-word;
+    margin: auto;
+    width: 100%;
+    max-width: 600px;
+}
+
+#chat td {
+    border: 1px solid black;
+}
+
+#chat ul#users {
+    list-style: none;
+    padding: 0 5px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#chat td.td2 {
+    height: 35px;
+}
+
+#chat td.td2 .input-group {
+    width: 100%;
+}
+
+#chat #messages {
+    vertical-align: top;
+    overflow-y: auto;
+    height: 300px;
+    padding: 0 5px;
+}
+
+#chat #messages p {
+    margin: 0;
+}

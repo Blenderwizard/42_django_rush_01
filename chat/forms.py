@@ -1,8 +1,8 @@
 from django.forms import ModelForm
-from .models import DiscussionModel
+from .models import MessageModel
 
 
-class DiscussionForm(ModelForm):
+class MessageForm(ModelForm):
     class Meta:
-        model = DiscussionModel
+        model = MessageModel
         fields = ['content']
