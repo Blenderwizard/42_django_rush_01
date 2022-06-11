@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block h1 %}Chat with {{ user2.username }}{% endblock %}
+
+{% block content %}
+        <table id="chat">
+        <tbody>
+            <tr>
+                <td class="td1">
+                    <div id="messages">
+                        {% for msg in objects_msglist %}
+                            <p><span>{{ msg.user }}</span>: {{ msg.content }}</p>
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="td2">
+                    <form action="{{ path }}" method="post" class="input-group">
+                        {% csrf_token %}
+                        <input id="msgbox" name="content" class="form-control" aria-label="Text input with multiple buttons">
+                        <div class="input-group-btn">
+                            <button id="sendmsg" type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </form>
+                    {{ form.non_field_errors }}
+                    {{ form.subject.errors }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
