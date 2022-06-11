@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block title %}Post{% endblock %}
+
+{% block content %}
+    <form action="{% url 'publish' %}" method="post" class="form-login">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">Post</button>
+        {% endbuttons %}
+    </form>
+{% endblock %}
