@@ -27,7 +27,7 @@
 	<form action="" method="post">
 		{% csrf_token %}
 		{% bootstrap_form form show_label=False %}
-		<input id="parrentForm" name="parrentForm" type="hidden" value="{{ comment.id }}">
+		<input id="parrentForm" name="parrentForm" type="hidden" value="{{ forum.id }}">
 		<input style="position: relative; right:0" type="submit" value="Comment" />
 	</form>
 	<br>

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, reverse
-from django.views.generic import CreateView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, ListView, FormView
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 from .models import CommentModel, ForumModel
 from .forms import CreateForumForm, CreateCommentForm
 
@@ -17,11 +19,10 @@ class Forum(ListView):
 			context['user'] = self.request.user
 		return context
 
-class ForumDetail(CreateView):
-	model = CommentModel
+class ForumDetail(FormView):
 	form_class = CreateCommentForm
 	template_name = "forum/foruminfo.html"
-	success_url = "forum/"
+	success_url = reverse_lazy('forum')
 
 	def get(self, request, *args, **kwargs):
 		if not ForumModel.objects.filter(id=int(self.kwargs['pk'])):
@@ -34,16 +35,38 @@ class ForumDetail(CreateView):
 		return context
 	
 	def form_valid(self, form):
-		print(self.request.POST)
-		return super(Publish, self).form_valid(form)
-
-
+		if not self.request.user.is_authenticated:
+			return super().form_invalid(form)
+		if 'content' not in form.cleaned_data:
+			return super().form_invalid(form)
+		if 'parrentForm' in self.request.POST and 'parrentComment' in self.request.POST:
+			return super().form_invalid(form)
+		if 'parrentForm' in self.request.POST and ForumModel.objects.filter(id=int(self.request.POST['parrentForm'])).exists():
+			print("test1")
+			if not User.objects.filter(username=self.request.user).exists():
+				return super().form_invalid(form)
+			CommentModel.objects.create(
+				author = User.objects.get(username=self.request.user), 
+				content = form.cleaned_data['content'],
+				shallow = ForumModel.objects.get(id=int(self.request.POST['parrentForm']))
+			)
+		elif 'parrentComment' in self.request.POST and CommentModel.objects.filter(id=int(self.request.POST['parrentComment'])).exists():
+			print("test2")
+			if not User.objects.filter(username=self.request.user).exists():
+				return super().form_invalid(form)
+			CommentModel.objects.create(
+				author = User.objects.get(username=self.request.user), 
+				content = form.cleaned_data['content'],
+				deep = CommentModel.objects.get(id=int(self.request.POST['parrentComment']))
+			)
+		print(CommentModel.objects.all())
+		return super().form_valid(form)
 
 class Publish(CreateView):
 	model = ForumModel
 	form_class = CreateForumForm
 	template_name = "forum/publish.html"
-	success_url = "/forum"
+	success_url = reverse_lazy('forum')
 
 	def get(self, request, *args, **kwargs):
 		if not request.user.is_authenticated:
