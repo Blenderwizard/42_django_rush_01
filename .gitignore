@@ -13,4 +13,4 @@ lib
 include
 pyvenv.cfg
 
-*temp*
+temp.txt

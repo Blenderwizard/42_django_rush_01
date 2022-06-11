@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}Forums{% endblock %}
+
+{% block content %}
+	<table>
+		<tr>
+			<th>
+				{{ forum.title }}
+				By: {{ forum.author }}
+			</th>
+		</tr>
+		<tr>
+			<td>
+				{{ forum.content }}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				{{ forum.created }}
+			</td>
+		</tr>
+	</table>
+{% endblock content %}

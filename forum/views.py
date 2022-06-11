@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
-from django.views.generic import CreateView, ListView
-
+from django.views.generic import CreateView, ListView, DetailView
+from django.core.paginator import Paginator
 from .models import CommentModel, ForumModel
 from .forms import CreateForumForm, CreateCommentForm
 
@@ -12,10 +12,25 @@ class Forum(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(Forum, self).get_context_data(**kwargs)
-		context['object_list'] = ForumModel.objects.order_by('-created')
+		context['object_list'] = Paginator(ForumModel.objects.order_by('-created'), 10).page(self.request.GET.get('page', 1))
 		if self.request.user.is_authenticated:
 			context['user'] = self.request.user
 		return context
+
+class ForumDetail(DetailView):
+	model = ForumModel
+	template_name = "forum/foruminfo.html"
+
+	def get(self, request, *args, **kwargs):
+		if not ForumModel.objects.filter(id=int(self.kwargs['pk'])):
+			return redirect(reverse('forum'))
+		return super().get(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context =  super().get_context_data(**kwargs)
+		context['forum'] = ForumModel.objects.get(id=int(self.kwargs['pk']))
+		return context
+
 
 class Publish(CreateView):
 	model = ForumModel

@@ -5,25 +5,33 @@
 {% block title %}Forums{% endblock %}
 
 {% block content %}
-	<table>
+	<table style="width: 100%;">
 		{% for members in object_list %}
 			<tr>
-				<th>
-					<a href="forums/{{ members.id }}">{{ members.title }}</a>
+				<th style="width: 75%; text-align: left">
+					<a href="/forum/{{ members.id }}">{{ members.title }}</a>
 					By: {{ members.author }}
+				</th>
+				<td style="width:1%"></td>
+				<th>
+					{{ members.created }}
+				</th>
+				<th>
+					{{ members.created|timesince }} ago
 				</th>
 			</tr>
 			<tr>
-				<td>
-					{{ members.content|truncatechars:50 }}
-				</td>
-				<td>
-					{{ members.created }}
-				</td>
-				<td>
-					{{ members.created|timesince }}
+				<td style="width: 75%; text-align: left">
+					{{ members.content|truncatechars:300 }}
 				</td>
 			</tr>
+		<tr>
+			<td>
+				<br />
+				<br />
+			</td>
+		</tr>
 		{% endfor %}
 	</table>
+	{% bootstrap_pagination object_list %}
 {% endblock content %}
