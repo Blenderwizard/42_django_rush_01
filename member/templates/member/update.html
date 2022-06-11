@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block title %}Update{% endblock %}
+
+{% block content %}
+    <ul>
+		<il>
+			Username: {{ userinfo.user }}
+		</il>
+		{% if userinfo.name != None %}
+			<il>
+				Name: {{ userinfo.name }}
+			</il>
+		{% endif %}
+		{% if userinfo.surname != None %}
+			<il>
+				Surname: {{ userinfo.surname }}
+			</il>
+		{% endif %}
+		{% if userinfo.email != None %}
+			<il>
+				Email: {{ userinfo.email }}
+			</il>
+		{% endif %}
+		<il>
+			{{ userinfo.avatar }}
+		</il>
+	</ul>
+{% endblock %}
