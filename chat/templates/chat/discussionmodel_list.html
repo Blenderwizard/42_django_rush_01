@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block h1 %}Discussions{% endblock %}
+
+{% block content %}
+    <p>Hi {{ request.user }} !</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col">id</th>
+                <th class="col">user</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for discussion in object_list %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                {% for recipient in discussion.recipientmodel_set.all %}
+                    {% if recipient.user != user %}
+                        <td><a href="{% url 'conv' pk=recipient.id %}">{{ recipient.user.username }}</a></td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% empty %}
+            <tr><td colspan="5" style="text-align:center">No article available</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% bootstrap_pagination page_obj %}
+{% endblock %}

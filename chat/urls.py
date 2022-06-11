@@ -3,8 +3,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # path('chat/', views.ChatroomListView.as_view(), name='chat'),
-    # path('chat/<int:pk>/', views.ChatroomDetailView.as_view(), name='chatroom'),
+    path('chat/', views.DiscussionListView.as_view(), name='discussions'),
+    path('chat/<int:pk>/', views.DiscussionDetailView.as_view(), name='conv'),
 ]
 
 # wspatterns = [
