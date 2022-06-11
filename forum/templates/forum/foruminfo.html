@@ -24,12 +24,14 @@
 		</tr>
 	</table>
 	<br>
-	<form action="" method="post">
-		{% csrf_token %}
-		{% bootstrap_form form show_label=False %}
-		<input id="parrentForm" name="parrentForm" type="hidden" value="{{ forum.id }}">
-		<input style="position: relative; right:0" type="submit" value="Comment" />
-	</form>
+	{% if isuser %}
+		<form action="" method="post">
+			{% csrf_token %}
+			{% bootstrap_form form show_label=False %}
+			<input id="parrentForm" name="parrentForm" type="hidden" value="{{ forum.id }}">
+			<input style="position: relative; right:0" type="submit" value="Comment" />
+		</form>
+	{% endif %}
 	<br>
 	<ul>
 	{% for comment in forum.commentmodel_set.all %}

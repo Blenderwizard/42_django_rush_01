@@ -24,6 +24,9 @@ class ForumDetail(FormView):
 	template_name = "forum/foruminfo.html"
 	success_url = reverse_lazy('forum')
 
+	def get_success_url(self) -> str:
+		return super().get_success_url() + str(self.kwargs['pk'])
+
 	def get(self, request, *args, **kwargs):
 		if not ForumModel.objects.filter(id=int(self.kwargs['pk'])):
 			return redirect(reverse('forum'))
@@ -32,6 +35,7 @@ class ForumDetail(FormView):
 	def get_context_data(self, **kwargs):
 		context =  super().get_context_data(**kwargs)
 		context['forum'] = ForumModel.objects.get(id=int(self.kwargs['pk']))
+		context['isuser'] = self.request.user.is_authenticated
 		return context
 	
 	def form_valid(self, form):

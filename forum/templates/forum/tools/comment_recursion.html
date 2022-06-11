@@ -3,12 +3,14 @@
 <li>
 	{{comment.author}} <br>
 	{{comment.content}} <br>
-	<form action="" method="post">
-		{% csrf_token %}
-		{% bootstrap_form form show_label=False %}
-		<input id="parrentComment" name="parrentComment" type="hidden" value="{{ comment.id }}">
-		<input type="submit" value="Comment" />
-	</form>
+	{% if isuser %}
+		<form action="" method="post">
+			{% csrf_token %}
+			{% bootstrap_form form show_label=False %}
+			<input id="parrentComment" name="parrentComment" type="hidden" value="{{ comment.id }}">
+			<input type="submit" value="Comment" />
+		</form>
+	{% endif %}
 	{% if comment.commentmodel_set.all.count > 0 %}
 		<ul>
 		{% for com in comment.commentmodel_set.all %}

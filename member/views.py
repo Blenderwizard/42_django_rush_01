@@ -16,10 +16,15 @@ def temp(request):  # Should we use generic view for all others views?
 class UpdateInformationView(FormView):
 	template_name = 'member/update.html'
 	form_class = UpdateForm
-	success_url = reverse_lazy('home')
+	success_url = '/user/'
+
+	def get_success_url(self) -> str:
+		return super().get_success_url() + str(self.kwargs['pk'])
 
 	def get(self, request, *args, **kwargs):
 		if not request.user.is_authenticated:
+			return redirect(reverse('home'))
+		if not MemberModel.objects.filter(user=self.kwargs['pk']).exists():
 			return redirect(reverse('home'))
 		if request.user.is_staff:
 			pass
@@ -51,7 +56,7 @@ class UpdateInformationView(FormView):
 				user.save()
 		elif User.objects.get(username=self.request.user).id != self.kwargs['pk']:
 			return super().form_invalid(form)
-		userinfo = MemberModel.objects.get(id=self.kwargs['pk'])
+		userinfo = MemberModel.objects.get(user=User.objects.get(username=self.request.user))
 		if 'name' in form.cleaned_data and form.cleaned_data['name'] != '':
 			userinfo.name = form.cleaned_data['name']
 		if 'surname' in form.cleaned_data and form.cleaned_data['surname'] != '':
@@ -76,6 +81,8 @@ class RegisterFormView(FormView):
 		return super().get(request, *args, **kwargs)
 
 	def form_valid(self, form):
+		if self.request.user.is_authenticated:
+			return redirect(reverse('home'))
 		user = form.save()
 		userinfo = MemberModel(user=user)
 		userinfo.save()
@@ -94,6 +101,8 @@ class LoginFormView(FormView):
         return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            return redirect(reverse('home'))
         user = authenticate(username=form.cleaned_data['username'],
                             password=form.cleaned_data['password'])
         if user is not None:
@@ -107,6 +116,7 @@ class LoginFormView(FormView):
 
 
 class LogoutView(View):  # CSRF: fix with a token?
-    def get(self, request, *args, **kwargs):
-        logout(request)
-        return redirect(reverse('home'))
+	def get(self, request, *args, **kwargs):
+		if self.request.user.is_authenticated:
+			logout(request)
+		return redirect(reverse('home'))
