@@ -1,5 +1,5 @@
 from django.forms import Form, ModelForm, CharField, PasswordInput, ValidationError
-from models import MemberModel
+from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
 # class MemberFullForm(Form):
@@ -20,7 +20,7 @@ class RegisterForm(ModelForm):
     confirm_password = CharField(widget=PasswordInput())
 
     class Meta:
-        model = MemberModel
+        model = User
         fields = ['username', 'password']
 
     def clean_password(self):

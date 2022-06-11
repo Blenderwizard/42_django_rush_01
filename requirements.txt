@@ -2,4 +2,5 @@ django==4.0.5
 django-bootstrap3==21.2
 channels==3.0.4
 channels-redis==3.4.0
+Pillow==9.1.1
 pyyaml==6.0

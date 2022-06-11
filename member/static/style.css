@@ -1,0 +1,15 @@
+div.container {
+    padding: 80px 15px 40px 15px;
+    text-align: center;
+}
+
+form.form-register,
+form.form-login {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+th, td {
+    text-align: left;
+}
