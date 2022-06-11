@@ -1,6 +1,7 @@
 from django.forms import Form, ModelForm, CharField, PasswordInput, ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from .models import MemberModel
 
 # class MemberFullForm(Form):
 #     def clean_image(self):
@@ -14,6 +15,11 @@ from django.contrib.auth.hashers import make_password
 #
 # https://stackoverflow.com/a/6195783/
 
+
+class UpdateForm(ModelForm):
+	class Meta:
+		model = MemberModel
+		fields = ['name', 'surname', 'email', 'description', 'avatar']
 
 class RegisterForm(ModelForm):
     password = CharField(widget=PasswordInput())
