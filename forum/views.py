@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView
 from django.core.paginator import Paginator
 from .models import CommentModel, ForumModel
 from .forms import CreateForumForm, CreateCommentForm
@@ -17,9 +17,11 @@ class Forum(ListView):
 			context['user'] = self.request.user
 		return context
 
-class ForumDetail(DetailView):
-	model = ForumModel
+class ForumDetail(CreateView):
+	model = CommentModel
+	form_class = CreateCommentForm
 	template_name = "forum/foruminfo.html"
+	success_url = "forum/"
 
 	def get(self, request, *args, **kwargs):
 		if not ForumModel.objects.filter(id=int(self.kwargs['pk'])):
@@ -30,6 +32,11 @@ class ForumDetail(DetailView):
 		context =  super().get_context_data(**kwargs)
 		context['forum'] = ForumModel.objects.get(id=int(self.kwargs['pk']))
 		return context
+	
+	def form_valid(self, form):
+		print(self.request.POST)
+		return super(Publish, self).form_valid(form)
+
 
 
 class Publish(CreateView):

@@ -25,12 +25,44 @@
 					{{ members.content|truncatechars:300 }}
 				</td>
 			</tr>
-		<tr>
-			<td>
-				<br />
-				<br />
-			</td>
-		</tr>
+			{% if members.commentmodel_set.all.count > 0 %}
+				<tr>
+					<th style="text-align: left">
+						Comments
+					</th>
+				</tr>
+			{% else %}
+				<tr>
+					<th style="text-align: left">
+						This post has no comments
+					</th>
+				</tr>
+			{% endif %}
+			{% for comment in members.commentmodel_set.all|slice:":4" %}
+				<tr>
+					<th style="width: 75%; text-align: left">
+						{{ comment.author }}
+					</th>
+					<td style="width:1%"></td>
+					<th>
+						{{ members.created }}
+					</th>
+					<th>
+						{{ members.created|timesince }} ago
+					</th>
+				</tr>
+				<tr>
+					<td style="width: 75%; text-align: left">
+						{{ comment.content }}
+					</td>
+				</tr>
+			{% endfor %}
+			<tr>
+				<td>
+					<br />
+					<br />
+				</td>
+			</tr>
 		{% endfor %}
 	</table>
 	{% bootstrap_pagination object_list %}

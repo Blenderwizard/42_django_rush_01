@@ -2,7 +2,7 @@
 
 {% load bootstrap3 %}
 
-{% block title %}Forums{% endblock %}
+{% block title %}{{ forum.title }} By: {{ forum.author }}{% endblock %}
 
 {% block content %}
 	<table>
@@ -23,4 +23,17 @@
 			</td>
 		</tr>
 	</table>
+	<br>
+	<form action="" method="post">
+		{% csrf_token %}
+		{% bootstrap_form form show_label=False %}
+		<input id="parrentForm" name="parrentForm" type="hidden" value="{{ comment.id }}">
+		<input style="position: relative; right:0" type="submit" value="Comment" />
+	</form>
+	<br>
+	<ul>
+	{% for comment in forum.commentmodel_set.all %}
+		{% include 'forum/tools/comment_recursion.html' %}
+	{% endfor %}
+	<ul>
 {% endblock content %}
