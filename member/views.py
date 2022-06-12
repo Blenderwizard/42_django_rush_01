@@ -1,5 +1,5 @@
 from django.views.generic import View, DetailView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, reverse, redirect
@@ -13,10 +13,14 @@ def temp(request):  # Should we use generic view for all others views?
     return render(request, 'home.html', context)
 
 
-class UpdateInformationView(FormView):
+class UpdateInformationView(UpdateView):
 	template_name = 'member/update.html'
+	model = MemberModel
 	form_class = UpdateForm
 	success_url = '/user/'
+
+	def get_object(self):
+		return MemberModel.objects.filter(user=self.kwargs['pk']).first()
 
 	def get_success_url(self) -> str:
 		return super().get_success_url() + str(self.kwargs['pk'])
