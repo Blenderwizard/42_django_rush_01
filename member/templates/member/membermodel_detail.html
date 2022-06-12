@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block title %}{{object.user}}{% endblock %}
+
+{% block h1 %}{{object.user}}{% endblock %}
+
+{% block content %}
+    <p>{{object.firstname}} {{object.name}}</p>
+    <p>{{object.description}}</p>
+    {% if object.avatar %}
+        <img src="{{object.avatar.url}}" />
+    {% endif %}
+    {% if user.is_authenticated %}
+        {% if user.id == object.id or user.is_staff %}
+            <p><a href="{% url 'user info' pk=object.id %}">Edit user</a></p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

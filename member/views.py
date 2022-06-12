@@ -16,17 +16,25 @@ def temp(request):  # Should we use generic view for all others views?
 	return render(request, 'home.html', context)
 
 
+class MemberDetailView(DetailView):
+	model = MemberModel
+
+	def get(self, request, *args, **kwargs):
+		if not request.user.is_authenticated:
+			return redirect(reverse('home'))
+		return super().get(request, *args, **kwargs)
+
+
 class UpdateInformationView(UpdateView):
 	template_name = 'member/update.html'
 	model = MemberModel
 	form_class = UpdateForm
-	success_url = '/user/'
 
 	def get_object(self):
 		return MemberModel.objects.filter(user=self.kwargs['pk']).first()
 
 	def get_success_url(self) -> str:
-		return super().get_success_url() + str(self.kwargs['pk'])
+		return reverse('user info', kwargs={'pk': str(self.kwargs['pk'])})
 
 	def get(self, request, *args, **kwargs):
 		if not request.user.is_authenticated:

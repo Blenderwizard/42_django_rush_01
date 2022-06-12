@@ -2,7 +2,7 @@
 
 {% load bootstrap3 %}
 
-{% block h1 %}Chat with {{ user2.username }}{% endblock %}
+{% block h1 %}Chat with <a href="{% url 'user' pk=user2.id %}">{{ user2.username }}</a>{% endblock %}
 
 {% block content %}
         <table id="chat">

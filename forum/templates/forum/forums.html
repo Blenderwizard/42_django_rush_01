@@ -13,9 +13,9 @@
 				<th style="width: 75%; text-align: left">
 					<a href="/forum/{{ members.id }}">{{ members.title }}</a>
 					{% if members.userinfo.avatar %}
-						By: <img src="{{  members.userinfo.avatar.url }}" style="max-width:30px;" > {{ members.author }}
+						By: <img src="{{  members.userinfo.avatar.url }}" style="max-width:30px;" > <a href="{% url 'user' pk=members.id %}">{{ members.author }}</a>
 					{% else %}
-						By: <img src="/media/default.png" style="max-width:30px;" > {{ members.author }}
+						By: <img src="/media/default.png" style="max-width:30px;" > <a href="{% url 'user' pk=members.id %}">{{ members.author }}</a>
 					{% endif %}
 				</th>
 				<td style="width:1%"></td>
@@ -34,7 +34,7 @@
 			<tr>
 				<td>
 					<br>
-				</td>=
+				</td>
 			</tr>
 			{% if members.commentmodel_set.all.count > 0 %}
 				<tr>

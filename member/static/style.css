@@ -14,6 +14,12 @@ th, td {
     text-align: left;
 }
 
+img {
+    vertical-align: middle;
+    max-width: 200px;
+    max-height: 200px;
+}
+
 #chat {
     border-collapse: collapse;
     word-break: break-word;
@@ -129,4 +135,12 @@ div.topic div.comment:hover form.form-comment {
 div.topic div.comment:hover form.form-comment {
     margin-top: 4px;
     display: block;
+}
+
+div.topic img {
+    max-height: 15px;
+}
+
+div.topic a {
+    vertical-align: middle;
 }
