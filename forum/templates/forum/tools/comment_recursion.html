@@ -3,7 +3,7 @@
 <li>
 	<div class="comment">
 	   <p class="author">{{comment.author}}</p>
-	   <p class="content">{{comment.content}}</p>
+	   <p class="content">{{comment.content}} - {{comment.created}}</p>
 	{% if isuser %}
 		<form action="" method="post" class="form-comment">
 			{% csrf_token %}
