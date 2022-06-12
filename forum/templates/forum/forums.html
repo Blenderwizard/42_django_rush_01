@@ -13,9 +13,9 @@
 				<th style="width: 75%; text-align: left">
 					<a href="/forum/{{ members.id }}">{{ members.title }}</a>
 					{% if members.userinfo.avatar %}
-						By: <img src="{{  members.userinfo.avatar.url }}" style="max-width:30px;" > <a href="{% url 'user' pk=members.id %}">{{ members.author }}</a>
+						By: <img src="{{  members.userinfo.avatar.url }}" style="max-width:30px;" > <a href="{% url 'user' pk=members.author.id %}">{{ members.author }}</a>
 					{% else %}
-						By: <img src="/media/default.png" style="max-width:30px;" > <a href="{% url 'user' pk=members.id %}">{{ members.author }}</a>
+						By: <img src="/media/default.png" style="max-width:30px;" > <a href="{% url 'user' pk=members.author.id %}">{{ members.author }}</a>
 					{% endif %}
 				</th>
 				<td style="width:1%"></td>
@@ -53,9 +53,9 @@
 				<tr>
 					<th style="width: 75%; text-align: left">
 						{% if comment.userinfo.avatar %}
-							<p class="author"><img src="{{ comment.userinfo.avatar.url }}" style="max-width:30px;" > <a href="{% url 'user' pk=comment.id %}">{{ comment.author }}</a></p>
+							<p class="author"><img src="{{ comment.userinfo.avatar.url }}" style="max-width:30px;" > <a href="{% url 'user' pk=comment.author.id %}">{{ comment.author }}</a></p>
 						{% else %}
-							<p class="author"><img src="/media/default.png" style="max-width:30px;" > <a href="{% url 'user' pk=comment.id %}">{{ comment.author }}</a></p>
+							<p class="author"><img src="/media/default.png" style="max-width:30px;" > <a href="{% url 'user' pk=comment.author.id %}">{{ comment.author }}</a></p>
 						{% endif %}
 					</th>
 					<td style="width:1%"></td>
