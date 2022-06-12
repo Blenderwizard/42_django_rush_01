@@ -25,7 +25,11 @@ class UpdateInformationView(FormView):
 		if not request.user.is_authenticated:
 			return redirect(reverse('home'))
 		if not MemberModel.objects.filter(user=self.kwargs['pk']).exists():
-			return redirect(reverse('home'))
+			if request.user.id == self.kwargs['pk']:
+				# Allow user created with admin panel
+				MemberModel(user=request.user).save()
+			else:
+				return redirect(reverse('home'))
 		if request.user.is_staff:
 			pass
 		elif User.objects.get(username=request.user).id != self.kwargs['pk']:
