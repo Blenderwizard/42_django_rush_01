@@ -8,4 +8,4 @@ class MemberModel(models.Model):
     surname = models.CharField(max_length=32, blank=True)
     email = models.EmailField(blank=True)
     description = models.TextField(blank=True)
-    avatar = models.ImageField(blank=True)  # Do we use Pillow to reduce Image ?
+    avatar = models.ImageField(blank=True, upload_to='avatars')  # Do we use Pillow to reduce Image ?

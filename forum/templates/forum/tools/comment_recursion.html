@@ -2,8 +2,12 @@
 
 <li>
 	<div class="comment">
-	   <p class="author">{{comment.author}}</p>
-	   <p class="content">{{comment.content}} - {{comment.created}}</p>
+		{% if comment.userinfo.avatar %}
+			<p class="author"><img src="{{ comment.userinfo.avatar.url }}" style="max-width:30px;" > {{comment.author}}</p>
+		{% else %}
+			<p class="author"><img src="/media/default.png" style="max-width:30px;" > {{comment.author}}</p>
+		{% endif %}
+		<p class="content">{{comment.content}} - {{comment.created}}</p>
 	{% if isuser %}
 		<form action="" method="post" class="form-comment">
 			{% csrf_token %}

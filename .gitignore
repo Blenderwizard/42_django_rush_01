@@ -6,7 +6,6 @@ venv/
 db.sqlite3
 # d05 ask no migration
 migrations/
-media/
 
 *.log
 bin
@@ -15,4 +14,3 @@ include
 pyvenv.cfg
 
 temp.txt
-static/

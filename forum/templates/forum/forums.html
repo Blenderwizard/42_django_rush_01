@@ -12,7 +12,11 @@
 			<tr>
 				<th style="width: 75%; text-align: left">
 					<a href="/forum/{{ members.id }}">{{ members.title }}</a>
-					By: {{ members.author }}
+					{% if members.userinfo.avatar %}
+						By: <img src="{{  members.userinfo.avatar.url }}" style="max-width:30px;" > {{ members.author }}
+					{% else %}
+						By: <img src="/media/default.png" style="max-width:30px;" > {{ members.author }}
+					{% endif %}
 				</th>
 				<td style="width:1%"></td>
 				<th>
@@ -26,6 +30,11 @@
 				<td style="width: 75%; text-align: left">
 					{{ members.content|truncatechars:300 }}
 				</td>
+			</tr>
+			<tr>
+				<td>
+					<br>
+				</td>=
 			</tr>
 			{% if members.commentmodel_set.all.count > 0 %}
 				<tr>
@@ -43,7 +52,11 @@
 			{% for comment in members.commentmodel_set.all|slice:":4" %}
 				<tr>
 					<th style="width: 75%; text-align: left">
-						{{ comment.author }}
+						{% if comment.userinfo.avatar %}
+							<p class="author"><img src="{{ comment.userinfo.avatar.url }}" style="max-width:30px;" > {{comment.author}}</p>
+						{% else %}
+							<p class="author"><img src="/media/default.png" style="max-width:30px;" > {{comment.author}}</p>
+						{% endif %}
 					</th>
 					<td style="width:1%"></td>
 					<th>

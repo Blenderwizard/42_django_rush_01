@@ -51,7 +51,6 @@ class UpdateInformationView(UpdateView):
 		return context
 
 	def form_valid(self, form):
-		print(form.cleaned_data)
 		if not self.request.user.is_authenticated:
 			return super().form_invalid(form)
 		if not User.objects.filter(id=self.kwargs['pk']).exists():
