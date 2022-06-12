@@ -9,8 +9,11 @@ from .models import MemberModel
 
 
 def temp(request):  # Should we use generic view for all others views?
-    context = {}
-    return render(request, 'home.html', context)
+	if request.user.is_authenticated:
+		if not MemberModel.objects.filter(user=request.user).exists():
+			MemberModel.objects.create(user=request.user)
+	context = {}
+	return render(request, 'home.html', context)
 
 
 class UpdateInformationView(UpdateView):
