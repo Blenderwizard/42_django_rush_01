@@ -6,7 +6,7 @@ from django.shortcuts import render, reverse, redirect
 from django.urls import reverse_lazy
 from .forms import LoginForm, RegisterForm, UpdateForm
 from .models import MemberModel
-
+from chat.models import DiscussionModel, RecipientModel
 
 def temp(request):  # Should we use generic view for all others views?
 	if request.user.is_authenticated:
@@ -131,6 +131,25 @@ class LoginFormView(FormView):
             form.add_error('username', '')
             form.add_error('password', '')
             return super().form_invalid(form)
+
+
+class CreateDiscussionView(View):
+	def get(self, request, *args, **kwargs):
+		user = User.objects.filter(id=int(self.kwargs['pk']))
+
+		if (not request.user.is_authenticated or not user.exists()) and user == request.user:
+			return redirect(reverse('home'))
+		user = user.first()
+		discussion = DiscussionModel.objects.filter(recipientmodel__user__id=request.user.id)
+		if not discussion.exists():
+			discussion = DiscussionModel()
+			discussion.save()
+			RecipientModel(discussion=discussion, user=user).save()
+			RecipientModel(discussion=discussion, user=request.user).save()
+		else:
+			discussion = discussion.first()
+
+		return redirect('/chat/' + str(discussion.id))
 
 
 class LogoutView(View):  # CSRF: fix with a token?

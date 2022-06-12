@@ -20,8 +20,11 @@ class DiscussionListView(ListView):
         queryset = super(DiscussionListView, self).get_queryset()
         pk = self.kwargs.get('pk', None)
         if queryset:
-            lastmsg = MessageModel.objects.order_by('-created')\
-                .filter(user=self.request.user).latest('id')
+            try:
+                MessageModel.objects.order_by('-created')\
+                    .filter(user=self.request.user).latest('id')
+            except:
+                pass
             return queryset.filter(recipientmodel__user=self.request.user)\
                 .prefetch_related('recipientmodel_set')\
                 .prefetch_related('messagemodel_set')
