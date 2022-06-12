@@ -11,9 +11,9 @@
 			<th>
 				{{ forum.title }}
 				{% if forum.userinfo.avatar %}
-					By: <img src="{{ forum.userinfo.avatar.url }}" style="max-width:30px;" > {{ forum.author }}
+					By: <img src="{{ forum.userinfo.avatar.url }}" style="max-width:30px;" > <a href="{% url 'user' pk=forum.id %}">{{ forum.author }}</a>
 				{% else %}
-					By: <img src="/media/default.png" style="max-width:30px;" > {{ forum.author }}
+					By: <img src="/media/default.png" style="max-width:30px;" > <a href="{% url 'user' pk=forum.id %}">{{ forum.author }}</a>
 				{% endif %}
 			</th>
 		</tr>
