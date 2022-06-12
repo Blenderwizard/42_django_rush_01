@@ -11,6 +11,7 @@
             <tr>
                 <th class="col" style="width: 50px;">id</th>
                 <th class="col">discussion</th>
+                <th class="col">last message</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,15 @@
                         <td><a href="{% url 'conv' pk=discussion.id %}">discussion with {{ recipient.user.username }}</a></td>
                     {% endif %}
                 {% endfor %}
+                <td>
+                    {% for item in discussion.messagemodel_set.all %}
+                        {% if forloop.last %}
+                            <b>{% if item.user == request.user %}You{% else %}Him{% endif %}:</b>
+                            {{ item.content|truncatechars:30 }} -
+                            {{ item.created }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
             </tr>
         {% empty %}
             <tr><td colspan="5" style="text-align:center">No article available</td></tr>

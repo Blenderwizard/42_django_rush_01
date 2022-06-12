@@ -14,4 +14,5 @@ class RecipientModel(models.Model):
 class MessageModel(models.Model):
     discussion = models.ForeignKey(DiscussionModel, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
     content = models.TextField()

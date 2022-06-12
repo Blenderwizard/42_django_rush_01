@@ -45,18 +45,24 @@ th, td {
     margin: 5px;
 }
 
-#chat #messages span {
+#chat #messages span.msg {
     background: white;
     display: inline-block;
     border-radius: 10px;
     padding: 5px 15px;
 }
 
+#chat #messages span.date {
+    display: block;
+    font-size: 10px;
+    color: gray;
+}
+
 #chat #messages p.my-message {
     text-align: right;
 }
 
-#chat #messages p.my-message span {
+#chat #messages p.my-message span.msg {
     background: #2368ec;
     color: white;
 }

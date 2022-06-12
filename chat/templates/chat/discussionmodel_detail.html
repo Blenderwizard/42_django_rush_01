@@ -11,9 +11,13 @@
                 <td class="td1">
                     <div id="messages">
                         {% for msg in object_msglist %}
-                            <p {% if msg.user == request.user %}class="my-message"{% endif %}><span>{{ msg.content }}</span></p>
+                            <p {% if msg.user == request.user %}class="my-message"{% endif %}>
+                                <span class="msg">{{ msg.content }}</span>
+                                <span class="date">{{ msg.created }}</span>
+                            </p>
                         {% endfor %}
                     </div>
+                <script>document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight</script>
                 </td>
             </tr>
             <tr>

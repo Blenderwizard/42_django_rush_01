@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
+from django.db.models import Prefetch
 from django.shortcuts import reverse, redirect
 from .models import DiscussionModel, MessageModel
 from .forms import MessageForm
@@ -17,9 +18,13 @@ class DiscussionListView(ListView):
 
     def get_queryset(self):
         queryset = super(DiscussionListView, self).get_queryset()
+        pk = self.kwargs.get('pk', None)
         if queryset:
+            lastmsg = MessageModel.objects.order_by('-created')\
+                .filter(user=self.request.user).latest('id')
             return queryset.filter(recipientmodel__user=self.request.user)\
-                .prefetch_related('recipientmodel_set')
+                .prefetch_related('recipientmodel_set')\
+                .prefetch_related('messagemodel_set')
         return queryset
 
     def get_context_data(self, **kwargs):
