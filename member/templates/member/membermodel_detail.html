@@ -17,7 +17,7 @@
             <p><a href="{% url 'user info' pk=object.id %}">Edit user</a></p>
         {% endif %}
         {% if user.id != object.id %}
-            <p><a href="{% url 'create_conv' pk=object.id %}">Start a conversation</a></p>
+            <p><a href="{% url 'create_conv' pk=object.user.id %}">Start a conversation</a></p>
         {% endif %}
     {% endif %}
 {% endblock %}

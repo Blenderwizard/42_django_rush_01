@@ -19,8 +19,13 @@ def temp(request):  # Should we use generic view for all others views?
 class MemberDetailView(DetailView):
 	model = MemberModel
 
+	def get_object(self):
+		return MemberModel.objects.filter(user=self.kwargs['pk']).first()
+
 	def get(self, request, *args, **kwargs):
 		if not request.user.is_authenticated:
+			return redirect(reverse('home'))
+		if not MemberModel.objects.filter(user=self.kwargs['pk']).exists():
 			return redirect(reverse('home'))
 		return super().get(request, *args, **kwargs)
 
