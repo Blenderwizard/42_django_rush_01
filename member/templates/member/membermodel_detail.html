@@ -7,7 +7,7 @@
 {% block h1 %}{{object.user}}{% endblock %}
 
 {% block content %}
-    <p>{{object.firstname}} {{object.name}}</p>
+    <p>{{object.name}} {{object.surname}}</p>
     <p>{{object.description}}</p>
     {% if object.avatar %}
         <img src="{{object.avatar.url}}" />
