@@ -51,7 +51,7 @@
 							Description not set
 						{% endif %}
 					{% elif field.name == 'avatar' and userinfo.avatar %}
-                        <img src="{{ userinfo.avatar.url }}">
+                        <img src="{{ userinfo.avatar.url }}" style="max-width:100px;">
 					{% endif %}
 				</label>
 				{% bootstrap_field field show_label=False required=false%}
