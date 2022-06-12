@@ -8,9 +8,5 @@ db.sqlite3
 migrations/
 
 *.log
-bin
-lib
-include
-pyvenv.cfg
-
 temp.txt
+/static/
