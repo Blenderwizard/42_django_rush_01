@@ -5,6 +5,7 @@
 {% block title %}{{ forum.title }} By: {{ forum.author }}{% endblock %}
 
 {% block content %}
+<div class="topic">
 	<table>
 		<tr>
 			<th>
@@ -23,19 +24,19 @@
 			</td>
 		</tr>
 	</table>
-	<br>
-	{% if isuser %}
-		<form action="" method="post">
-			{% csrf_token %}
-			{% bootstrap_form form show_label=False %}
-			<input id="parrentForm" name="parrentForm" type="hidden" value="{{ forum.id }}">
-			<input style="position: relative; right:0" type="submit" value="Comment" />
-		</form>
-	{% endif %}
-	<br>
+    {% if isuser %}
+        <form action="" method="post" class="form-comment">
+            {% csrf_token %}
+            {# {% bootstrap_form form show_label=False %} #}
+            {% bootstrap_field form.content show_label=False %}
+            <input id="parrentForm" name="parrentForm" type="hidden" value="{{ forum.id }}">
+            <input style="position: relative; right:0" type="submit" class="btn btn-primary" value="Comment" />
+        </form>
+    {% endif %}
 	<ul>
-	{% for comment in forum.commentmodel_set.all %}
-		{% include 'forum/tools/comment_recursion.html' %}
-	{% endfor %}
+        {% for comment in forum.commentmodel_set.all %}
+            {% include 'forum/tools/comment_recursion.html' %}
+        {% endfor %}
 	<ul>
+</div>
 {% endblock content %}

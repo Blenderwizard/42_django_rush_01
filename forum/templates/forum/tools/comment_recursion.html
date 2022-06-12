@@ -1,16 +1,18 @@
 {% load bootstrap3 %}
 
 <li>
-	{{comment.author}} <br>
-	{{comment.content}} <br>
+	<div class="comment">
+	   <p class="author">{{comment.author}}</p>
+	   <p class="content">{{comment.content}}</p>
 	{% if isuser %}
-		<form action="" method="post">
+		<form action="" method="post" class="form-comment">
 			{% csrf_token %}
 			{% bootstrap_form form show_label=False %}
 			<input id="parrentComment" name="parrentComment" type="hidden" value="{{ comment.id }}">
-			<input type="submit" value="Comment" />
+			<input type="submit" class="btn btn-primary" value="Comment" />
 		</form>
 	{% endif %}
+	</div>
 	{% if comment.commentmodel_set.all.count > 0 %}
 		<ul>
 		{% for com in comment.commentmodel_set.all %}
