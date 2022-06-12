@@ -5,7 +5,7 @@
 {% block title %}{{userinfo.user}}{% endblock %}
 
 {% block content %}
-	<form action="" method="post" >
+	<form action="" method="post" enctype="multipart/form-data">
 		{% csrf_token %}
 		{% for field in form %}
 			{% if field.name == 'staff' %}
@@ -50,8 +50,8 @@
 						{% else %}
 							Description not set
 						{% endif %}
-					{% elif field.name == 'avatar' %}
-						{{userinfo.avatar}}
+					{% elif field.name == 'avatar' and userinfo.avatar %}
+                        <img src="{{ userinfo.avatar.url }}">
 					{% endif %}
 				</label>
 				{% bootstrap_field field show_label=False required=false%}
