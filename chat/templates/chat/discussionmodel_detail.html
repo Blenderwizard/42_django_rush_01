@@ -10,8 +10,8 @@
             <tr>
                 <td class="td1">
                     <div id="messages">
-                        {% for msg in objects_msglist %}
-                            <p><span>{{ msg.user }}</span>: {{ msg.content }}</p>
+                        {% for msg in object_msglist %}
+                            <p {% if msg.user == request.user %}class="my-message"{% endif %}><span>{{ msg.content }}</span></p>
                         {% endfor %}
                     </div>
                 </td>
@@ -31,4 +31,5 @@
             </tr>
         </tbody>
     </table>
+    <p><a href="{% url 'discussions' %}">Go back to the discussion list</a></p>
 {% endblock %}

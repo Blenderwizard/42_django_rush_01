@@ -9,8 +9,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th class="col">id</th>
-                <th class="col">user</th>
+                <th class="col" style="width: 50px;">id</th>
+                <th class="col">discussion</th>
             </tr>
         </thead>
         <tbody>
@@ -19,7 +19,7 @@
                 <th scope="row">{{ forloop.counter }}</th>
                 {% for recipient in discussion.recipientmodel_set.all %}
                     {% if recipient.user != user %}
-                        <td><a href="{% url 'conv' pk=recipient.id %}">{{ recipient.user.username }}</a></td>
+                        <td><a href="{% url 'conv' pk=discussion.id %}">discussion with {{ recipient.user.username }}</a></td>
                     {% endif %}
                 {% endfor %}
             </tr>

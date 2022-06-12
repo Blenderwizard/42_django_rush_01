@@ -32,25 +32,37 @@ class DiscussionDetailView(FormMixin, DetailView):
     form_class = MessageForm
 
     def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('/')
         self.object = self.get_object()
         form = self.get_form()
-        if form.is_valid():
+        pk = self.kwargs.get('pk', None)
+        self.discussion = DiscussionModel.objects.filter(id=pk, recipientmodel__user=request.user).first()
+        if form.is_valid() and self.discussion:
             return self.form_valid(form)
         else:
+            if not self.discussion:
+                form.add_error(None, 'invalid discussion')
             return self.form_invalid(form)
 
     def form_valid(self, form):
-        pk = self.kwargs.get('pk', None)
-        # TODO: A FINIR
-        form.save()
+        message = form.save(commit=False)
+        message.discussion = self.discussion
+        message.user = self.request.user
+        message.save()
         return super(DiscussionDetailView, self).form_valid(form)
 
     def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('/')
         pk = self.kwargs.get('pk', None)
-        model = DiscussionModel.objects.filter(id=pk, recipientmodel__user=request.user)
-        if not request.user.is_authenticated or not model:
+        discussion = DiscussionModel.objects.filter(id=pk, recipientmodel__user=request.user)
+        if not discussion:
             return redirect('/')
         return super().get(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return self.request.path
 
     def get_queryset(self):
         queryset = super(DiscussionDetailView, self).get_queryset()

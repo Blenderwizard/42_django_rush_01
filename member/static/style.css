@@ -23,14 +23,7 @@ th, td {
 }
 
 #chat td {
-    border: 1px solid black;
-}
-
-#chat ul#users {
-    list-style: none;
-    padding: 0 5px;
-    max-height: 300px;
-    overflow-y: auto;
+    /*border: 1px solid black;*/
 }
 
 #chat td.td2 {
@@ -43,11 +36,27 @@ th, td {
 
 #chat #messages {
     vertical-align: top;
+    background:#eee;
     overflow-y: auto;
-    height: 300px;
-    padding: 0 5px;
+    height: 500px;
 }
 
 #chat #messages p {
-    margin: 0;
+    margin: 5px;
+}
+
+#chat #messages span {
+    background: white;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 5px 15px;
+}
+
+#chat #messages p.my-message {
+    text-align: right;
+}
+
+#chat #messages p.my-message span {
+    background: #2368ec;
+    color: white;
 }
